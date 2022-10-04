@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Блог сайта</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/styleBlogAdd.css">
+</head>
+<body>
+    <header th:insert="blocks/header :: header"></header>
+
+    <div class="mainPart">
+        <h1>Edit an article</h1>
+
+            <input id="title" placeholder="Enter title" required type="text" th:field="*{title}" />
+            <input id="previewText" placeholder="Enter preview-text" required type="text" th:field="*{previewText}" />
+            <input id="fullText" placeholder="Enter full text" required type="text" th:field="*{fullText}" />
+
+            <input type="submit" value="Save" />
+        </form>
+    </div>
+
+    <footer th:insert="blocks/footer :: footer" />
+</body>
+</html>

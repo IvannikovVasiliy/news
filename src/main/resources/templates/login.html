@@ -1,0 +1,59 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+<!--<head>-->
+<!--    <title>Spring Security Example </title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:if="${param.error}">-->
+<!--    Invalid username and password.-->
+<!--</div>-->
+<!--<div th:if="${param.logout}">-->
+<!--    You have been logged out.-->
+<!--</div>-->
+<!--<form th:action="@{/login}" method="post">-->
+<!--    <div><label> User Name : <input type="text" name="username"/> </label></div>-->
+<!--    <div><label> Password: <input type="password" name="password"/> </label></div>-->
+<!--    <div><input type="submit" value="Sign In"/></div>-->
+<!--</form>-->
+<!--<a href="/registration">Add new author</a>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/style_registration.css}">
+</head>
+<body>
+<div class="main">
+    <div class="blue">
+        <p class="header">Студ Департмент</p>
+        <p class="subheader">
+            Делитесь своими идеями с другими
+        </p>
+
+        <div class="blocks">
+            <div class="block">Все права защищены</div>
+            <div class="block">О нас</div>
+            <div class="block">Контакты</div>
+        </div>
+    </div>
+
+    <div class="form">
+        <form class="add" th:action="@{/perform-login}" method="post">
+            <h1>Добро пожаловать на сайт</h1>
+            <h2>Войдите в аккаунт, чтобы получить больше возможностей</h2>
+
+            <input type="text" id="email" name="email" placeholder="Имя пользователя" /><br>
+            <input type="password" id="password" name="password" placeholder="Пароль" />
+            <br>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

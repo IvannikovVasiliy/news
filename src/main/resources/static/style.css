@@ -1,0 +1,217 @@
+body{
+    margin: 0;
+    padding:  0;
+    font-family: Arial;
+}
+
+a{
+    text-decoration: none;
+}
+
+header a{
+    opacity: 0.9;
+    color: #fff;
+    text-decoration: none;
+}
+
+header a:hover{
+    opacity: 1;
+}
+
+header{
+    height: 140px;
+    background-color: #0085cf;
+    color: #fff;
+    position: relative;
+}
+
+header .upLine{
+    height: 97px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    width: 1070px;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.upLine .logo{
+    font-size: 20px;
+    display: flex;
+}
+
+.logo .header-text{
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.logo .textNews{
+    font-size: 41px;
+}
+
+.upLine .navigation{
+    font-size: 25px;
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top:  50%;
+    right: 0%;
+    transform: translate3d(0, -50%, 0);
+}
+
+.main{
+    top:  50px;
+    width: 1070px;
+    margin: auto;
+    position: relative;
+}
+
+.back{
+    position: absolute;
+    top:  105px;
+    left: 145px;
+    width: 780px;
+    height: 220px;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 20px;
+}
+
+.events_heading_your_way{
+    color: #0085cf;
+    margin-top:  30px;
+    font-weight: 600;
+    font-size: 50px;
+    text-align: center;
+}
+
+.underheading{
+    margin-top: -30px;
+    font-size: 32.5px;
+    text-align: center;
+}
+
+.activities{
+    text-align: center;
+    font-size: 42px;
+    font-weight: 600;
+    color: #0085cf;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.photos{
+    display: flex;
+    justify-content: space-between;
+}
+
+.photos img {
+    max-width: 300px;
+    min-width: ;
+}
+
+.photos p{
+    margin-top: 20px;
+    width: 300px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.main a{
+    display: inline-block;
+    width: 155px;
+    height: 32px;
+    padding-top: 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    background-color: #0085cf;
+}
+
+.QuickReminder{
+    padding-left: 30px;
+    color:  #fff;
+    margin-top: 60px;
+    background-color: #0085cf;
+    height: 140px;
+    border-radius: 20px;
+}
+
+.QuickReminder .header_reminder{
+    font-weight: 600;
+    padding-top: 20px;
+    font-size: 28px;
+}
+
+.QuickReminder .underheader_reminder{
+    font-size: 18px;
+    margin-top: -15px;
+    letter-spacing: 0.6px;
+    word-spacing: 2px;
+}
+
+.latest_updates{
+    text-align: center;
+    color: #0085cf;
+    margin-top: 65px;
+    font-size: 42px;
+}
+
+.Blocks_updates .intern_block_updates{
+    display: flex;
+    margin-top: 40px;
+    font-size: 25px;
+}
+
+.Blocks_updates .intern_block_updates .meeting{
+    padding-top: 25px;
+    margin-bottom: -10px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.Blocks_updates .intern_block_updates .text_intern_blocks{
+    padding-left: 30px;
+}
+
+.Blocks_updates .MoreInfo{
+    margin-top: 5px;
+}
+
+nav{
+    margin-top: 150px;
+    background-color: #0085cf;
+}
+
+nav p{
+    font-size: 18px;
+    padding-top: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+nav img{
+    margin-top: -5px;
+    width: 40px;
+    height: 40px;
+}
+
+nav div div{
+    width:  300px;
+    height:  60px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Support{
+    padding-top: 25px;
+    padding-bottom: 25px;
+    width: 850px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
