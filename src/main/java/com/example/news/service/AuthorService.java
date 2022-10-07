@@ -36,6 +36,8 @@ public class AuthorService {
     }
 
     public void addUser(RegistrationModel regModel) {
+
+
         Author author = new Author(
                 regModel.getEmail(),
                 regModel.getLogin(),

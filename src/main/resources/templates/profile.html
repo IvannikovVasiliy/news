@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,16 +11,16 @@
 <body>
     <div th:insert="blocks/header :: header" />
 
-<!--    <div class="main">-->
-<!--        <h1 th:text="'Пользователь: ' + ${author.getLogin}" />-->
+    <div class="main">
+        <h1 th:text="'Пользователь: ' + ${author.getLogin}" />
 <!--        <p th:text="'Имя пользователя: ' + ${author.name}" />-->
 <!--        <p th:text="'Фамилия пользователя: ' + ${author.surname}"></p>-->
 <!--        <p th:text="'Роль пользователя: ' + ${author.roles}"></p>-->
 
-<!--        <form th:action="@{/logout}" method="post">-->
-<!--            <input type="submit" value="Sign Out"/>-->
-<!--        </form>-->
-<!--    </div>-->
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
 
     <div th:insert="blocks/footer :: footer" />
 </body>

@@ -3,6 +3,7 @@ package com.example.news.controller;
 import com.example.news.entity.Author;
 //import com.example.news.model.LoginRequest;
 //import com.example.news.model.RegistrationModel;
+import com.example.news.model.LoginRequest;
 import com.example.news.model.RegistrationModel;
 import com.example.news.service.AuthorService;
 import com.example.news.service.PostService;
@@ -51,6 +52,10 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profile(Model model) {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        System.out.println(loginRequest.getLogin());
+        model.addAttribute("author", loginRequest);
         return "profile";
     }
 
