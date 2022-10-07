@@ -11,7 +11,7 @@
     <header th:insert="blocks/header :: header"></header>
 
     <h1>Регистрация</h1>
-    <form th:action="@{/registration}" method="post" th:object="${author}">
+    <form th:action="@{/registration}" method="post" th:object="${regModel}">
         <label>E-mail</label><input type="email" th:field="*{email}" />
         <label>Имя пользователя: </label><input type="text" th:field="*{login}" />
         <label>Пароль: </label><input type="password" th:field="*{password}"/>

@@ -1,12 +1,18 @@
 package com.example.news.service;
 
+
+import com.example.news.entity.Author;
 import com.example.news.entity.Post;
 import com.example.news.model.PostModel;
 import com.example.news.repository.AuthorRepository;
 import com.example.news.repository.NewsTypeRepository;
 import com.example.news.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 //@AllArgsConstructor
 public class PostService {
 
@@ -57,13 +64,17 @@ public class PostService {
             System.out.println(ex.getMessage());
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Author author = authorRepository.findByLogin(authentication.getName());
+        System.out.println(author.getId());
+        System.out.println(author.getEmail());
+
         Post post = new Post(
                 postModel.getTitle(),
                 postModel.getPreviewText(),
                 postModel.getFullText(),
-                authorRepository.findById(1L).get(),
-                newsRepository.findByTypeNews(postModel.getNewsType()),
-                /*uploadPath + */imageName
+                author
         );
 
         return postRepository.save(post);

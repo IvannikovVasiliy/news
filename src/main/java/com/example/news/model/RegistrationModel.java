@@ -1,10 +1,13 @@
 package com.example.news.model;
 
+import lombok.Data;
+
+@Data
 public class RegistrationModel {
-    public String email;
-    public String login;
-    public String password;
-    public String name;
-    public String surname;
-    public String role;
+    private String email;
+    private String login;
+    private String password;
+    private String name;
+    private String surname;
+    private String role;
 }

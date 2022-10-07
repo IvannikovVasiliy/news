@@ -44,11 +44,12 @@
     </div>
 
     <div class="form">
-        <form class="add" th:action="@{/perform-login}" method="post">
+        <form class="add" th:action="@{/login}" method="post">
+            <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
             <h1>Добро пожаловать на сайт</h1>
             <h2>Войдите в аккаунт, чтобы получить больше возможностей</h2>
 
-            <input type="text" id="email" name="email" placeholder="Имя пользователя" /><br>
+            <input type="text" id="login" name="login" placeholder="Имя пользователя" /><br>
             <input type="password" id="password" name="password" placeholder="Пароль" />
             <br>
             <button type="submit">Войти</button>

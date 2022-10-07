@@ -21,16 +21,7 @@
 
         <h1 class="activities">ПРЕДСТОЯЩИЕ СОБЫТИЯ В ИЮЛЕ 2022</h1>
 
-        <div class="photos">
-            <div th:each="post : ${postsFuture}">
 
-<!--                <div class="text">-->
-                    <img th:src="${post.imageName}" alt="">
-                    <h2 th:text="${post.title}" />
-                    <a th:href="'/posts/' + ${post.id}" class="read_more">Узнать больше</a>
-<!--                </div>-->
-            </div>
-        </div>
 
         <div class="QuickReminder">
             <p class="header_reminder">Напоминание</p>
@@ -41,14 +32,7 @@
 
         <h1 class="latest_updates">ПОСЛЕДНИЕ НОВОСТИ</h1>
 
-        <div class="Blocks_updates">
-            <div th:each="post : ${postsPast}">
-                    <img width="420px" th:src="${post.imageName}">
-                    <h2 th:text="${post.title}" />
-                    <p th:text="${post.previewText}" />
-                    <a th:href="'/posts/' + ${post.id}" class="read_more">Узнать Больше</a>
-            </div>
-        </div>
+
     </div>
 
     <div th:insert="blocks/footer :: footer" />

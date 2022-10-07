@@ -17,15 +17,11 @@ public class Post {
     public Post(String title,
                 String previewText,
                 String fullText,
-                Author author,
-                NewsType newsType,
-                String imageName) {
+                Author author) {
         this.title = title;
         this.previewText = previewText;
         this.fullText = fullText;
         this.author = author;
-        this.newsType = newsType;
-        this.imageName = imageName;
     }
 
     @Id
@@ -43,14 +39,8 @@ public class Post {
     @NotNull
     private String fullText;
 
-    @Column(name = "image_name")
-    private String imageName;
-
     @ManyToOne
+    @JoinColumn(name = "id_author")
     private Author author;
-
-    @ManyToOne
-    @JoinColumn(name = "news_type_id")
-    private NewsType newsType;
 
 }

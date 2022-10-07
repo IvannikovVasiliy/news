@@ -1,6 +1,7 @@
 package com.example.news.controller;
 
 import com.example.news.entity.Post;
+//import com.example.news.model.PostModel;
 import com.example.news.model.PostModel;
 import com.example.news.service.AuthorService;
 import com.example.news.service.PostService;

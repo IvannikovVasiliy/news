@@ -1,0 +1,40 @@
+package com.example.news.service;
+
+import com.example.news.entity.Author;
+import com.example.news.entity.Role;
+import com.example.news.repository.AuthorRepository;
+import com.example.news.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@Service
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
+    private final AuthorRepository authorRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Author author = authorRepository.findByLogin(login);
+
+        //return new User(author.getLogin(), author.getPassword(), mappedRoles(author.getRoles()));
+        return new User(author.getLogin(), author.getPassword(), mappedRoles(new ArrayList<Role>()));
+    }
+
+    private Collection<? extends GrantedAuthority> mappedRoles(Collection<Role> roles) {
+        Collection<SimpleGrantedAuthority> resultSet = new ArrayList<>();
+        roles.stream().forEach(role -> resultSet.add(
+                new SimpleGrantedAuthority(role.getName().name()))
+        );
+
+        return resultSet;
+    }
+}

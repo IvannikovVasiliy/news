@@ -14,6 +14,15 @@ import java.util.Collection;
 @NoArgsConstructor
 public class Author {
 
+    public Author(String email, String login, String password, String name, String surname, Collection<Role> roles) {
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.roles = roles;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,8 +41,6 @@ public class Author {
 
     @NotNull
     private String surname;
-
-    private boolean active;
 
     @ManyToMany
     @JoinTable(
