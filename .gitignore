@@ -8,7 +8,7 @@ target/
 .apt_generated
 .classpath
 .factorypath
-.properties
+*.properties
 .project
 .settings
 .springBeans
