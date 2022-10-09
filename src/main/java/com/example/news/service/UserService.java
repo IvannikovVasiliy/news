@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,11 +23,11 @@ public class UserService implements UserDetailsService {
     private final AuthorRepository authorRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Author author = authorRepository.findByLogin(login);
 
-        //return new User(author.getLogin(), author.getPassword(), mappedRoles(author.getRoles()));
-        return new User(author.getLogin(), author.getPassword(), mappedRoles(new ArrayList<Role>()));
+        return new User(author.getLogin(), author.getPassword(), mappedRoles(author.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mappedRoles(Collection<Role> roles) {

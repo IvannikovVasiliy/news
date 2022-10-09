@@ -6,6 +6,7 @@ import com.example.news.model.PostModel;
 import com.example.news.service.AuthorService;
 import com.example.news.service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +58,7 @@ public class PostsController {
     public String createPost(Model model,
                              @ModelAttribute PostModel postModel,
                              @RequestParam MultipartFile image) throws IOException {
-        postService.createPost(postModel, image);
+        postService.createPost(postModel/*, image*/);
 
         return "redirect:/posts";
     }
@@ -66,17 +67,19 @@ public class PostsController {
     public String editPost(@PathVariable(value = "id") Long id, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("path", id+"/edit");
-        model.addAttribute("post", new Post());
-        return "blog-add";
+        model.addAttribute("post", new PostModel());
+        return "blog-edit";
     }
 
-    @PostMapping("/{id}/edit")
-    public String editPost(@PathVariable(value = "id") Integer id,
+    @PatchMapping("/{id}/edit")
+    public String editPost(@PathVariable(value = "id") Long id,
                            @ModelAttribute PostModel postModel,
-                           @RequestParam MultipartFile image,
+                           //@RequestParam MultipartFile image,
                            Model model) throws IOException {
-
-        postService.createPost(postModel, image);
+        System.out.println("fodhdfoghgdfs");
+        System.out.println(postModel.getTitle());
+        postService.editPost(postModel, id);
+        //postService.createPost(postModel/*, image*/);
         return "redirect:/posts";
     }
 

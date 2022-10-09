@@ -33,7 +33,7 @@
                 <div class="textDetails">
                     <div th:text="${post.fullText}" />
                     <div class="buttonsDetails">
-                        <a th:href="'/blog/' + ${post.id} + '/edit'">Edit</a>
+                        <a th:href="'/posts/' + ${post.id} + '/edit'">Edit</a>
 
                         <form th:action="'/blog/' + ${post.id} + '/remove'" method="post">
                             <button>Delete</button>
