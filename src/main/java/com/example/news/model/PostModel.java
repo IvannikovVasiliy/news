@@ -12,5 +12,4 @@ public class PostModel {
     private String title;
     private String previewText;
     private String fullText;
-    private String newsType;
 }

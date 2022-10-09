@@ -54,8 +54,9 @@ public class HomeController {
     public String profile(Model model) {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        System.out.println(loginRequest.getLogin());
         model.addAttribute("author", loginRequest);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
         return "profile";
     }
 

@@ -47,22 +47,22 @@ public class PostService {
         return postRepository.findById(id).orElseThrow();
     }
 
-    public Post createPost(PostModel postModel, MultipartFile image) throws IOException {
-        String imageName = UUID.randomUUID().toString() + image.getOriginalFilename();
-        System.out.println(imageName);
-        try (FileOutputStream fos = new FileOutputStream(
-                "D://Spring//news//src//main//resources//static//" + imageName
-        )) {
-            // перевод строки в байты
-            byte[] buffer = image.getBytes();
-
-            fos.write(buffer, 0, buffer.length);
-            System.out.println("The file has been written");
-        }
-        catch(IOException ex){
-
-            System.out.println(ex.getMessage());
-        }
+    public Post createPost(PostModel postModel/*, MultipartFile image*/) throws IOException {
+//        String imageName = UUID.randomUUID().toString() + image.getOriginalFilename();
+//        System.out.println(imageName);
+//        try (FileOutputStream fos = new FileOutputStream(
+//                "D://Spring//news//src//main//resources//static//" + imageName
+//        )) {
+//            // перевод строки в байты
+//            byte[] buffer = image.getBytes();
+//
+//            fos.write(buffer, 0, buffer.length);
+//            System.out.println("The file has been written");
+//        }
+//        catch(IOException ex){
+//
+//            System.out.println(ex.getMessage());
+//        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -90,5 +90,14 @@ public class PostService {
 
     public List<Post> getLast2InPast() {
         return postRepository.findLast2InPast();
+    }
+
+    public void editPost(PostModel postModel, Long id) {
+        Post post = postRepository.findById(id).get();
+        post.setTitle(postModel.getTitle());
+        post.setPreviewText(post.getPreviewText());
+        post.setFullText(post.getFullText());
+
+        postRepository.save(post);
     }
 }

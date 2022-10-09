@@ -20,8 +20,6 @@
             <input id="title" placeholder="Enter title" required type="text" th:field="*{title}" />
             <input id="previewText" placeholder="Enter preview-text" required type="text" th:field="*{previewText}" />
             <input id="fullText" placeholder="Enter full text" required type="text" th:field="*{fullText}" />
-            <label>Будущее</label><input type="radio" name="future" value="future" th:field="*{newsType}" />
-            <input type="radio" name="past" value="past" th:field="*{newsType}" />
             <input type="file" name="image">
             <input type="submit" value="Save" />
         </form>
