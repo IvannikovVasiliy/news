@@ -3,17 +3,20 @@ package com.example.news.controller;
 import com.example.news.entity.Author;
 //import com.example.news.model.LoginRequest;
 //import com.example.news.model.RegistrationModel;
+import com.example.news.jwt.JwtTokenProvider;
 import com.example.news.model.LoginRequest;
 import com.example.news.model.RegistrationModel;
 import com.example.news.service.AuthorService;
 import com.example.news.service.PostService;
 import com.example.news.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +26,15 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@AllArgsConstructor
+@RestController
+@RequiredArgsConstructor
 public class HomeController {
 
-    UserService userService;
-    AuthorService authorService;
-    PostService postService;
+    private final UserService userService;
+    private final AuthorService authorService;
+    private final PostService postService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationManager authenticationManager;
 
     @GetMapping("/")
     public String home() {
@@ -50,24 +55,20 @@ public class HomeController {
         return "redirect:/login";
     }
 
-    @GetMapping("/profile")
-    public String profile(Model model) {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("author", loginRequest);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+    @PostMapping("/signin")
+    public String login(@RequestBody LoginRequest loginRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+        );
 
-        return "profile";
+        Author author = userService.findByUsername(loginRequest.getUsername());
+
+        return jwtTokenProvider.createToken(loginRequest.getUsername(), author.getRoles());
     }
 
-    @GetMapping("/login")
-    public String getLogin(@RequestParam(value = "error", required = false) String error,
-                           @RequestParam(value = "logout", required = false) String logout,
-                           Model model) {
-        model.addAttribute("error", error != null);
-        model.addAttribute("logout", logout != null);
-
-        return "login";
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
     }
 
 }

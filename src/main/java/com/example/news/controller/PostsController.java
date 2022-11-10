@@ -7,6 +7,7 @@ import com.example.news.service.AuthorService;
 import com.example.news.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +16,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/posts")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class PostsController {
 
     PostService postService;
     AuthorService authorService;
 
-
     @GetMapping
-    public String getPosts(Model model) {
-        List<Post> posts = postService.getPosts();
-        model.addAttribute("posts", posts);
+    public List<PostModel> getPosts() {
+        List<PostModel> posts = postService.getPosts();
 
-        return "blog";
+        return posts;
     }
 
     @GetMapping("/{id}")
@@ -54,13 +54,10 @@ public class PostsController {
         return "blog-add";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String createPost(Model model,
-                             @ModelAttribute PostModel postModel,
-                             @RequestParam MultipartFile image) throws IOException {
-        postService.createPost(postModel/*, image*/);
-
-        return "redirect:/posts";
+    @CrossOrigin(origins = "http://localhost:8080")
+    @PostMapping("add")
+    public Post createPost(@RequestBody PostModel postModel) throws IOException {
+        return postService.createPost(postModel);
     }
 
     @GetMapping("/{id}/edit")

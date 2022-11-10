@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Author {
 
-    public Author(String email, String login, String password, String name, String surname, Collection<Role> roles) {
+    public Author(String email, String username, String password, String name, String surname, List<Role> roles) {
         this.email = email;
-        this.login = login;
+        this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
@@ -31,7 +31,7 @@ public class Author {
     private String email;
 
     @NotNull
-    private String login;
+    private String username;
 
     @NotNull
     private String password;
@@ -47,6 +47,6 @@ public class Author {
             name = "author_role",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "roles"))
-    private Collection<Role> roles;
+    private List<Role> roles;
 
 }
