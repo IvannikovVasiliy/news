@@ -27,14 +27,9 @@ import java.util.UUID;
 //@AllArgsConstructor
 public class PostService {
 
-    @Autowired
-    AuthorRepository authorRepository;
-
-    @Autowired
-    PostRepository postRepository;
-
-    @Autowired
-    NewsTypeRepository newsRepository;
+    private final AuthorRepository authorRepository;
+    private final PostRepository postRepository;
+    private final NewsTypeRepository newsRepository;
 
     @Transactional
     public List<PostModel> getPosts() {
@@ -53,7 +48,7 @@ public class PostService {
         return postRepository.findById(id).orElseThrow();
     }
 
-    public Post createPost(PostModel postModel/*, MultipartFile image*/) throws IOException {
+    public PostModel createPost(PostModel postModel/*, MultipartFile image*/) throws IOException {
 //        String imageName = UUID.randomUUID().toString() + image.getOriginalFilename();
 //        System.out.println(imageName);
 //        try (FileOutputStream fos = new FileOutputStream(
@@ -82,8 +77,14 @@ public class PostService {
                 postModel.getFullText(),
                 author
         );
+        postRepository.save(post);
 
-        return postRepository.save(post);
+        return PostModel
+                .builder()
+                .title(post.getTitle())
+                .previewText(post.getPreviewText())
+                .fullText(post.getFullText())
+                .build();
     }
 
     public void deleteById(Long id) {

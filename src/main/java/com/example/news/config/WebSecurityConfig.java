@@ -47,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/signin").permitAll()
+                .antMatchers("/posts").permitAll()
+                .antMatchers("/posts/add").hasRole("ADMIN")
                 .anyRequest().authenticated();
 //                .and()
 //                .apply(new JwtConfigurer(jwtTokenProvider));

@@ -56,7 +56,7 @@ public class PostsController {
 
     @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("add")
-    public Post createPost(@RequestBody PostModel postModel) throws IOException {
+    public PostModel createPost(@RequestBody PostModel postModel) throws IOException {
         return postService.createPost(postModel);
     }
 
