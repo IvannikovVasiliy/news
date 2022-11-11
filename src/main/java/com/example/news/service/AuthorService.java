@@ -36,7 +36,7 @@ public class AuthorService {
                 passwordEncoder.encode(regModel.getPassword()),
                 regModel.getName(),
                 regModel.getSurname(),
-                Arrays.asList(roleRepository.findByName("ROLE_USER"))
+                Arrays.asList(roleRepository.findByName(regModel.getRole()))
         );
 
         authorRepository.save(author);

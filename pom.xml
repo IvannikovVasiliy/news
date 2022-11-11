@@ -12,7 +12,7 @@
     <artifactId>news</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>news</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <description>news</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,7 +79,6 @@
     </dependencies>
 
     <build>
-        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

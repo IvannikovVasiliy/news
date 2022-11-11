@@ -43,16 +43,15 @@ public class HomeController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model model) {
-        model.addAttribute("regModel", new RegistrationModel());
-        return "registration";
+    public String registration(RegistrationModel registation) {
+        return "USER CREATED";
     }
 
     @PostMapping("/registration")
-    public String addAuthor(RegistrationModel registrationModel) {
+    public String addAuthor(@RequestBody RegistrationModel registrationModel) {
         authorService.addUser(registrationModel);
 
-        return "redirect:/login";
+        return "USER CREATED";
     }
 
     @PostMapping("/signin")
