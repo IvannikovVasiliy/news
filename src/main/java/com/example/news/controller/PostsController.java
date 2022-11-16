@@ -33,10 +33,10 @@ public class PostsController {
     }
 
     @GetMapping("/{id}")
-    public String infoAboutPost(@PathVariable Long id, Model model) {
-        Post post = postService.getPostById(id);
-        model.addAttribute("post", post);
-        return "blog-details";
+    public PostModel infoAboutPost(@PathVariable Long id) {
+        PostModel post = postService.getPostById(id);
+
+        return post;
     }
 
 //    @GetMapping("/images/{id}")
@@ -54,8 +54,8 @@ public class PostsController {
         return "blog-add";
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
-    @PostMapping("add")
+    //@CrossOrigin(origins = "http://localhost:8080")
+    @PostMapping
     public PostModel createPost(@RequestBody PostModel postModel) throws IOException {
         return postService.createPost(postModel);
     }

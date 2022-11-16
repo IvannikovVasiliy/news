@@ -43,28 +43,13 @@ public class PostService {
                 .toList();
     }
 
-    public Post getPostById(Long id) {
-        //Ошибка
-        return postRepository.findById(id).orElseThrow();
+    public PostModel getPostById(Long id) {
+        Post post = postRepository.findById(id).get();
+
+        return PostModel.builder().title(post.getTitle()).build();
     }
 
-    public PostModel createPost(PostModel postModel/*, MultipartFile image*/) throws IOException {
-//        String imageName = UUID.randomUUID().toString() + image.getOriginalFilename();
-//        System.out.println(imageName);
-//        try (FileOutputStream fos = new FileOutputStream(
-//                "D://Spring//news//src//main//resources//static//" + imageName
-//        )) {
-//            // перевод строки в байты
-//            byte[] buffer = image.getBytes();
-//
-//            fos.write(buffer, 0, buffer.length);
-//            System.out.println("The file has been written");
-//        }
-//        catch(IOException ex){
-//
-//            System.out.println(ex.getMessage());
-//        }
-
+    public PostModel createPost(PostModel postModel) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Author author = authorRepository.findByUsername(authentication.getName());

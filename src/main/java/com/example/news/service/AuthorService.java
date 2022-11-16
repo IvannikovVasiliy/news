@@ -27,9 +27,7 @@ public class AuthorService {
         return authorRepository.findByUsername(name);
     }
 
-    public void addUser(RegistrationModel regModel) {
-
-
+    public Author addUser(RegistrationModel regModel) {
         Author author = new Author(
                 regModel.getEmail(),
                 regModel.getLogin(),
@@ -39,6 +37,6 @@ public class AuthorService {
                 Arrays.asList(roleRepository.findByName(regModel.getRole()))
         );
 
-        authorRepository.save(author);
+        return authorRepository.save(author);
     }
 }

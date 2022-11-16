@@ -48,10 +48,8 @@ public class HomeController {
     }
 
     @PostMapping("/registration")
-    public String addAuthor(@RequestBody RegistrationModel registrationModel) {
-        authorService.addUser(registrationModel);
-
-        return "USER CREATED";
+    public Author addAuthor(@RequestBody RegistrationModel registrationModel) {
+        return authorService.addUser(registrationModel);
     }
 
     @PostMapping("/signin")

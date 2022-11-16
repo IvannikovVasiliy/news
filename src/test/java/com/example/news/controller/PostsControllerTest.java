@@ -1,0 +1,105 @@
+package com.example.news.controller;
+
+import com.example.news.entity.Author;
+import com.example.news.entity.Post;
+import com.example.news.model.PostModel;
+import com.example.news.repository.PostRepository;
+import com.example.news.service.PostService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.MockServerRestTemplateCustomizer;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.web.servlet.function.RequestPredicates.contentType;
+
+@ExtendWith(SpringExtension.class)
+public class PostsControllerTest {
+
+    private MockMvc mockMvc;
+
+    @BeforeEach
+    public void init() {
+        openMocks(this); //init
+        mockMvc = MockMvcBuilders.standaloneSetup(postsController).build();
+    }
+
+    @Mock
+    private PostService postService;
+
+    @InjectMocks
+    private PostsController postsController;
+
+    Post post = new Post(1L, "1", "1", "1", new Author());
+    PostModel postModel = new PostModel("1", "1", "1");
+
+    @Test
+    public void getAllPosts() throws Exception {
+        List<PostModel> posts = List.of(postModel);
+        when(postService.getPosts()).thenReturn(posts);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/posts")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].title", is("1")));
+    }
+
+    @Test
+    public void getPostById() throws Exception {
+        when(postService.getPostById(post.getId())).thenReturn(postModel);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/posts/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.title", is("1")));
+    }
+
+    @Test
+    public void createPost() throws Exception {
+        when(postService.createPost(postModel)).thenReturn(postModel);
+
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders
+                        .post("/posts")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(postModel.toString());
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk());
+//                .andExpect(jsonPath("$", notNullValue()))
+//                .andExpect(jsonPath("$.title", is("1")));
+    }
+}
