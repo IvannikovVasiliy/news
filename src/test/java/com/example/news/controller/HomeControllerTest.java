@@ -1,6 +1,7 @@
 package com.example.news.controller;
 
 import com.example.news.entity.Author;
+import com.example.news.model.PostModel;
 import com.example.news.model.RegistrationModel;
 import com.example.news.service.AuthorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,24 +51,20 @@ class HomeControllerTest {
     @Test
     public void createAuthor() throws Exception {
         RegistrationModel registrationModel = new RegistrationModel();
-        registrationModel.setEmail("a");
-        registrationModel.setName("a");
+        registrationModel.setEmail("2");
+        registrationModel.setName("2");
+        registrationModel.setRole("ROLE_ADMIN");
+        registrationModel.setLogin("22");
+        registrationModel.setPassword("2");
+        registrationModel.setSurname("2");
 
-        Author author = new Author("a", "a", "a", "a", "a", null);
+        when(authorService.addUser(registrationModel)).thenReturn(registrationModel);
 
-        String content = objectWriter.writeValueAsString(author);
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectWriter.writeValueAsString(registrationModel));
 
-        MockHttpServletRequestBuilder mockRequest =
-                MockMvcRequestBuilders
-                        .post("/registration")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content);
-
-        System.out.println("hi" + content);
-        for (int i = 0; i < 100; i++) {
-            System.out.println("kdfbdvf");
-        }
-
-        mockMvc.perform(mockRequest).andExpect(status().isOk()).andExpect(jsonPath("$", notNullValue()));
+        mockMvc.perform(mockRequest).andExpect(status().isOk());
     }
 }

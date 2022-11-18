@@ -23,11 +23,11 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author findByUsername(String name) {
-        return authorRepository.findByUsername(name);
+    public Author findByLogin(String login) {
+        return authorRepository.findByLogin(login);
     }
 
-    public Author addUser(RegistrationModel regModel) {
+    public RegistrationModel addUser(RegistrationModel regModel) {
         Author author = new Author(
                 regModel.getEmail(),
                 regModel.getLogin(),
@@ -37,6 +37,8 @@ public class AuthorService {
                 Arrays.asList(roleRepository.findByName(regModel.getRole()))
         );
 
-        return authorRepository.save(author);
+        authorRepository.save(author);
+
+        return regModel;
     }
 }

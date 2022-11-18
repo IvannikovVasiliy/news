@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Author {
 
-    public Author(String email, String username, String password, String name, String surname, List<Role> roles) {
+    public Author(String email, String login, String password, String name, String surname, List<Role> roles) {
         this.email = email;
-        this.username = username;
+        this.login = login;
         this.password = password;
         this.name = name;
         this.surname = surname;
@@ -31,7 +31,7 @@ public class Author {
     private String email;
 
     @NotNull
-    private String username;
+    private String login;
 
     @NotNull
     private String password;

@@ -49,8 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/posts/**").permitAll()
+                .antMatchers("/posts").permitAll()
                 .antMatchers("/posts/add").hasRole("ADMIN")
+                .antMatchers("/posts/{id}/patch").hasRole("ADMIN")
+                .antMatchers("/posts/{id}/delete").hasRole("ADMIN")
                 .anyRequest().authenticated();
 //                .and()
 //                .apply(new JwtConfigurer(jwtTokenProvider));

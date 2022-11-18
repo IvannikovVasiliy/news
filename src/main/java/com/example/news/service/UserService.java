@@ -24,9 +24,9 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Author author = authorRepository.findByUsername(login);
+        Author author = authorRepository.findByLogin(login);
 
-        return new User(author.getUsername(), author.getPassword(), mappedRoles(author.getRoles()));
+        return new User(author.getLogin(), author.getPassword(), mappedRoles(author.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mappedRoles(Collection<Role> roles) {
@@ -38,8 +38,8 @@ public class UserService implements UserDetailsService {
         return resultSet;
     }
 
-    public Author findByUsername(String username) {
+    public Author findByLogin(String login) {
 
-        return authorRepository.findByUsername(username);
+        return authorRepository.findByLogin(login);
     }
 }

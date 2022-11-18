@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
 
-  postgresdb:
+  postgresdb: #hostname
     image: postgres
     container_name: 'postgres'
     ports:

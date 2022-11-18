@@ -47,16 +47,9 @@ public class PostsController {
 //                .body(new InputStreamResource(new ByteArrayInputStream(post.getBytes())));
 //    }
 
-    @GetMapping("/add")
-    public String createPost(Model model) {
-        model.addAttribute("path", "add");
-        model.addAttribute("post", new PostModel());
-        return "blog-add";
-    }
-
     //@CrossOrigin(origins = "http://localhost:8080")
-    @PostMapping
-    public PostModel createPost(@RequestBody PostModel postModel) throws IOException {
+    @PostMapping("/add")
+    public PostModel createPost(@RequestBody PostModel postModel) {
         return postService.createPost(postModel);
     }
 
@@ -68,22 +61,15 @@ public class PostsController {
         return "blog-edit";
     }
 
-    @PatchMapping("/{id}/edit")
-    public String editPost(@PathVariable(value = "id") Long id,
-                           @ModelAttribute PostModel postModel,
-                           //@RequestParam MultipartFile image,
-                           Model model) throws IOException {
-        System.out.println("fodhdfoghgdfs");
-        System.out.println(postModel.getTitle());
-        postService.editPost(postModel, id);
-        //postService.createPost(postModel/*, image*/);
-        return "redirect:/posts";
+    @PutMapping("/{id}/edit")
+    public PostModel editPost(@PathVariable(value = "id") Long id, @RequestBody PostModel postModel) {
+        return postService.editPost(postModel, id);
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public String deletePost(@PathVariable Long id) {
         postService.deleteById(id);
-        return "redirect:/posts";
+        return "POST " + id + " DELETED";
     }
 
 }

@@ -5,6 +5,9 @@ import com.example.news.entity.Post;
 import com.example.news.model.PostModel;
 import com.example.news.repository.PostRepository;
 import com.example.news.service.PostService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +42,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.servlet.function.RequestPredicates.contentType;
@@ -59,6 +63,9 @@ public class PostsControllerTest {
 
     @InjectMocks
     private PostsController postsController;
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    ObjectWriter objectWriter = objectMapper.writer();
 
     Post post = new Post(1L, "1", "1", "1", new Author());
     PostModel postModel = new PostModel("1", "1", "1");
@@ -92,14 +99,44 @@ public class PostsControllerTest {
         when(postService.createPost(postModel)).thenReturn(postModel);
 
         MockHttpServletRequestBuilder mockRequest =
-                MockMvcRequestBuilders
-                        .post("/posts")
+                MockMvcRequestBuilders.post("/posts/add")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(postModel.toString());
+                        .content(objectWriter.writeValueAsString(postModel));
 
         mockMvc.perform(mockRequest)
-                .andExpect(status().isOk());
-//                .andExpect(jsonPath("$", notNullValue()))
-//                .andExpect(jsonPath("$.title", is("1")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.title", is("1")));
+
+//        mockMvc.perform(post("/posts")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectWriter.writeValueAsString(postModel)))
+//                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updatePost() throws Exception {
+        when(postService.editPost(postModel, 1L)).thenReturn(postModel);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/posts/1/edit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectWriter.writeValueAsString(postModel));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()));
+    }
+
+    @Test
+    public void deletePost() throws Exception {
+        when(postService.deleteById(1L)).thenReturn(true);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.delete("/posts/1/delete")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest).andExpect(status().isOk());
     }
 }

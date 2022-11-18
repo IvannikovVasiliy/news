@@ -24,14 +24,12 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-//@AllArgsConstructor
 public class PostService {
 
     private final AuthorRepository authorRepository;
     private final PostRepository postRepository;
     private final NewsTypeRepository newsRepository;
 
-    @Transactional
     public List<PostModel> getPosts() {
         return postRepository.findAll()
                 .stream()
@@ -52,9 +50,7 @@ public class PostService {
     public PostModel createPost(PostModel postModel) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Author author = authorRepository.findByUsername(authentication.getName());
-        System.out.println(author.getId());
-        System.out.println(author.getEmail());
+        Author author = authorRepository.findByLogin(authentication.getName());
 
         Post post = new Post(
                 postModel.getTitle(),
@@ -72,24 +68,25 @@ public class PostService {
                 .build();
     }
 
-    public void deleteById(Long id) {
+    public boolean deleteById(Long id) {
         postRepository.deleteById(id);
+        return true;
     }
 
-    public List<Post> getLast3InFuture() {
-        return postRepository.findLast3InFuture();
-    }
 
-    public List<Post> getLast2InPast() {
-        return postRepository.findLast2InPast();
-    }
-
-    public void editPost(PostModel postModel, Long id) {
+    public PostModel editPost(PostModel postModel, Long id) {
         Post post = postRepository.findById(id).get();
         post.setTitle(postModel.getTitle());
         post.setPreviewText(post.getPreviewText());
         post.setFullText(post.getFullText());
 
-        postRepository.save(post);
+        Post res = postRepository.save(post);
+
+        return PostModel.builder()
+                .title(post.getTitle())
+                .previewText(post.getPreviewText())
+                .fullText(post.getFullText())
+                .build();
+
     }
 }
