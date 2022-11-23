@@ -1,70 +1,113 @@
 package com.example.news.controller;
 
 import com.example.news.entity.Author;
-import com.example.news.model.PostModel;
+import com.example.news.entity.Role;
+import com.example.news.jwt.JwtTokenProvider;
+import com.example.news.model.LoginRequest;
 import com.example.news.model.RegistrationModel;
+import com.example.news.repository.AuthorRepository;
+import com.example.news.repository.RoleRepository;
 import com.example.news.service.AuthorService;
+import com.example.news.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class HomeControllerTest {
 
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
     private MockMvc mockMvc;
+
+    @Mock AuthorService authorService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    AuthorRepository authorRepository;
+    @Mock
+    UserService userService;
 
     ObjectMapper objectMapper = new ObjectMapper();
     ObjectWriter objectWriter = objectMapper.writer();
 
-    @BeforeEach
-    public void init() {
-        openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
+    @Test
+    public void getAllUsers() throws Exception {
+        String token = jwtTokenProvider.createToken("1", List.of(new Role("ROLE_ADMIN")));
+        Authentication authentication = jwtTokenProvider.getAuth(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/users")
+                .header("Authorization", "Bearer_" + token));
+
+        response.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    @Mock
-    private AuthorService authorService;
-
-    @InjectMocks
-    private HomeController homeController;
-
     @Test
-    public void createAuthor() throws Exception {
-        RegistrationModel registrationModel = new RegistrationModel();
-        registrationModel.setEmail("2");
-        registrationModel.setName("2");
-        registrationModel.setRole("ROLE_ADMIN");
-        registrationModel.setLogin("22");
-        registrationModel.setPassword("2");
-        registrationModel.setSurname("2");
+    public void registration() throws Exception {
+        RegistrationModel registrationModel =
+                RegistrationModel.builder()
+                        .email("ivanov@gmail.com")
+                        .login("Ivanov")
+                        .name("Ivan")
+                        .password("ivanov")
+                        .surname("ivanov")
+                        .role("ROLE_USER")
+                        .build();
 
         when(authorService.addUser(registrationModel)).thenReturn(registrationModel);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectWriter.writeValueAsString(registrationModel));
+        mockMvc.perform(MockMvcRequestBuilders.post("/registration")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectWriter.writeValueAsString(registrationModel)))
+                .andExpect(status().isCreated());
+    }
 
-        mockMvc.perform(mockRequest).andExpect(status().isOk());
+    @Test
+    void testLogin() throws Exception {
+        Author author = authorRepository.findById(1L).get();
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setLogin("1");
+        loginRequest.setPassword("1");
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword())
+        );
+
+        when(userService.findByLogin("1")).thenReturn(author);
+        mockMvc.perform(MockMvcRequestBuilders.post("/signin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectWriter.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasLength(156)));
     }
 }

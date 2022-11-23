@@ -31,10 +31,9 @@ public class PostService {
     private final NewsTypeRepository newsRepository;
 
     public List<PostModel> getPosts() {
-        return postRepository.findAll()
-                .stream()
-                .map(post -> PostModel
-                        .builder()
+        List<Post> posts = postRepository.findAll();
+        return posts.stream()
+                .map(post -> PostModel.builder()
                         .title(post.getTitle())
                         .build()
                 )

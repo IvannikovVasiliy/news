@@ -11,7 +11,12 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "roles")
+@NoArgsConstructor
 public class Role {
+    public Role(String name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -39,26 +39,10 @@ public class PostsController {
         return post;
     }
 
-//    @GetMapping("/images/{id}")
-//    public ResponseEntity<?> getImage(@PathVariable Long id) {
-//        Post post = postService.getPostById(id);
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.valueOf(post.getContentType().getContentType()))
-//                .body(new InputStreamResource(new ByteArrayInputStream(post.getBytes())));
-//    }
-
     //@CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("/add")
     public PostModel createPost(@RequestBody PostModel postModel) {
         return postService.createPost(postModel);
-    }
-
-    @GetMapping("/{id}/edit")
-    public String editPost(@PathVariable(value = "id") Long id, Model model) {
-        model.addAttribute("id", id);
-        model.addAttribute("path", id+"/edit");
-        model.addAttribute("post", new PostModel());
-        return "blog-edit";
     }
 
     @PutMapping("/{id}/edit")

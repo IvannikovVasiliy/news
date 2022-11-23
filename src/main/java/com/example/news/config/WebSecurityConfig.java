@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/posts/add").hasRole("ADMIN")
                 .antMatchers("/posts/{id}/patch").hasRole("ADMIN")
                 .antMatchers("/posts/{id}/delete").hasRole("ADMIN")
+                .antMatchers("/users").hasRole("ADMIN")
                 .anyRequest().authenticated();
 //                .and()
 //                .apply(new JwtConfigurer(jwtTokenProvider));

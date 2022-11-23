@@ -1,18 +1,21 @@
 package com.example.news.controller;
 
-//import com.example.news.model.LoginRequest;
-//import com.example.news.model.RegistrationModel;
 import com.example.news.entity.Author;
 import com.example.news.jwt.JwtTokenProvider;
+import com.example.news.model.AuthorModel;
 import com.example.news.model.LoginRequest;
         import com.example.news.model.RegistrationModel;
 import com.example.news.service.AuthorService;
 import com.example.news.service.PostService;
 import com.example.news.service.UserService;
         import lombok.RequiredArgsConstructor;
-        import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
         import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,11 +33,16 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/users")
+    public List<AuthorModel> findAllUsers() {
+        return authorService.findAllUsers();
+    }
+
     @PostMapping("/registration")
-    public String addAuthor(@RequestBody RegistrationModel registrationModel) {
+    public ResponseEntity registration(@RequestBody RegistrationModel registrationModel) {
         authorService.addUser(registrationModel);
 
-        return "USER CREATED";
+        return new ResponseEntity("USER CREATED", HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")
