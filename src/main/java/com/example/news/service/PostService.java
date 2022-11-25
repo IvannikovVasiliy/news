@@ -35,6 +35,8 @@ public class PostService {
         return posts.stream()
                 .map(post -> PostModel.builder()
                         .title(post.getTitle())
+                        .previewText(post.getPreviewText())
+                        .fullText(post.getFullText())
                         .build()
                 )
                 .toList();
@@ -48,7 +50,6 @@ public class PostService {
 
     public PostModel createPost(PostModel postModel) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         Author author = authorRepository.findByLogin(authentication.getName());
 
         Post post = new Post(
@@ -71,7 +72,6 @@ public class PostService {
         postRepository.deleteById(id);
         return true;
     }
-
 
     public PostModel editPost(PostModel postModel, Long id) {
         Post post = postRepository.findById(id).get();

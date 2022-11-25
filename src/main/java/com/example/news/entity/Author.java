@@ -42,7 +42,7 @@ public class Author {
     @NotNull
     private String surname;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "author_role",
             joinColumns = @JoinColumn(name = "author_id"),

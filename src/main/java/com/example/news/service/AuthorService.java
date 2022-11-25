@@ -9,7 +9,6 @@ import com.example.news.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -21,7 +20,7 @@ public class AuthorService {
     private final RoleRepository roleRepository;
     private final AuthorRepository authorRepository;
 
-    public List<Author> getAuthor() {
+    public List<Author> getAllAuthors() {
         return authorRepository.findAll();
     }
 
@@ -29,7 +28,7 @@ public class AuthorService {
         return authorRepository.findByLogin(login);
     }
 
-    public RegistrationModel addUser(RegistrationModel regModel) {
+    public boolean addUser(RegistrationModel regModel) {
         Author author = new Author(
                 regModel.getEmail(),
                 regModel.getLogin(),
@@ -41,7 +40,7 @@ public class AuthorService {
 
         authorRepository.save(author);
 
-        return regModel;
+        return true;
     }
 
     public List<AuthorModel> findAllUsers() {

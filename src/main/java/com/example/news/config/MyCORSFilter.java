@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 //@Component
-//public class MyCORSFilter implements Filter {
-//
+public class MyCORSFilter /*implements Filter*/ {
+
 //    @Override
 //    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 //
@@ -18,6 +18,7 @@ import java.io.IOException;
 //        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 //        response.setHeader("Access-Control-Allow-Credentials", "true");
 //        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+////        response.setHeader("Access-Control-Allow-Origin", "*");
 //        response.setHeader("Access-Control-Max-Age", "3600");
 //        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 //        chain.doFilter(req, res);
@@ -30,5 +31,5 @@ import java.io.IOException;
 //    @Override
 //    public void destroy() {
 //    }
-//
-//}
+
+}

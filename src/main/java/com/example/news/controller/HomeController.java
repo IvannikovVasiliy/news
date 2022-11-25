@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:3000")//(origins = "*")
 public class HomeController {
 
     private final UserService userService;
@@ -45,7 +46,7 @@ public class HomeController {
         return new ResponseEntity("USER CREATED", HttpStatus.CREATED);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword())
