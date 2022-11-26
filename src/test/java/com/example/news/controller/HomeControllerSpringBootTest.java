@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class HomeControllerTest {
+class HomeControllerSpringBootTest {
 
     @Autowired
     private MockMvc mockMvc;
