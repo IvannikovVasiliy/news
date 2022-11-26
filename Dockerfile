@@ -1,3 +1,3 @@
-FROM openjdk:18
-ADD ./target/news-0.0.1-SNAPSHOT.jar news.jar
+FROM openjdk:17
+ADD ./target/news-app.jar news.jar
 ENTRYPOINT ["java", "-jar", "news.jar"]
