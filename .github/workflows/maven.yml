@@ -12,9 +12,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - './news/**'
-  workflow_dispatch:
 
 jobs:
   build:
