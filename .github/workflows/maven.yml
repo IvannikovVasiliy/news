@@ -11,7 +11,7 @@ name: News-project CI with Maven
 on:
   push:
     branches:
-      - 'master'
+      - master
     paths:
       - './news/**'
   workflow_dispatch:
