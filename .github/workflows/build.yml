@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'news/**'
+      - 'news/*'
   workflow_dispatch:
 
 jobs:
