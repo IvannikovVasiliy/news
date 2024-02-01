@@ -10,11 +10,11 @@ name: News-project CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - 'master'
     paths:
       - './news/**'
-  pull_request:
-    branches: [ "master" ]
+
 
 jobs:
   build:
